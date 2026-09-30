@@ -20,6 +20,16 @@ Learning Repository. https://doi.org/10.24432/C55S3H
 techniques for the predictive accuracy of probability of default of credit card
 clients. *Expert Systems with Applications*, 36(2), 2473–2480.
 
+This research employed a binary variable, default payment (Yes = 1, No = 0), as the response variable. This study reviewed the literature and used the following 23 variables as explanatory variables:
+X1: Amount of the given credit (NT dollar): it includes both the individual consumer credit and his/her family (supplementary) credit.
+X2: Gender (1 = male; 2 = female).
+X3: Education (1 = graduate school; 2 = university; 3 = high school; 4 = others).
+X4: Marital status (1 = married; 2 = single; 3 = others).
+X5: Age (year).
+X6 - X11: History of past payment. We tracked the past monthly payment records (from April to September, 2005) as follows: X6 = the repayment status in September, 2005; X7 = the repayment status in August, 2005; . . .;X11 = the repayment status in April, 2005. The measurement scale for the repayment status is: -1 = pay duly; 1 = payment delay for one month; 2 = payment delay for two months; . . .; 8 = payment delay for eight months; 9 = payment delay for nine months and above.
+X12-X17: Amount of bill statement (NT dollar). X12 = amount of bill statement in September, 2005; X13 = amount of bill statement in August, 2005; . . .; X17 = amount of bill statement in April, 2005. 
+X18-X23: Amount of previous payment (NT dollar). X18 = amount paid in September, 2005; X19 = amount paid in August, 2005; . . .;X23 = amount paid in April, 2005.
+
 30,000 customers from Taiwan (2005), 23 features + target. Feature groups:
 
 - **Demographics:** credit limit, sex, education, marriage, age
@@ -91,7 +101,9 @@ risk score, not just a label.
   rule. It is only optimized by predictions that are both well-ranked and
   well-calibrated.
 
-**Best model:** `C=0.01`, `penalty='l2'`, `solver='newton-cg'` (CV log-loss ≈ 0.452).
+**Best model:** C=0.1, penalty='elasticnet', l1_ratio=0.5, solver='saga' (CV log-loss ≈ 0.4534).
+
+Data is split into 60/20/20 training/validation/test subsets. GridSearchCV tunes on train only; the threshold is selected on valid.
 
 ### Threshold selection
 
@@ -112,7 +124,9 @@ documented assumption, not a figure sourced from real institutional data.
 
 ## Limitations
 
-- ...
+- EDUCATION_4 carries the largest coefficient despite n=468 (~1.6% of rows) — a real but less generalizable pattern from a small, undocumented category
+- Single-snapshot dataset: Taiwan, 2005, one 6-month window — repayment behavior and macroeconomic conditions from 20 years ago may not generalize to current lending contexts
+- Logistic regression trades some predictive performance for interpretability.
 
 ## Setup
 
